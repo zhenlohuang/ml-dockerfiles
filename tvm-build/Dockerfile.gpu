@@ -1,13 +1,17 @@
-FROM tvmai/ci-gpu:v0.61
+FROM tvmai/ci-gpu:v0.64
 
 COPY install /install
 COPY scripts /scripts
 
+# Install Aliyun Mirror
+RUN bash /install/install_aliyun_mirror.sh
+RUN apt-get update --fix-missing
+
 # Install utilities
-RUN /install/install_utilities.sh
+RUN /install/install-utilities.sh
 
 # Install python packages
-RUN /install/install_python_packages.sh
+RUN /install/install-python-packages.sh
 
 # Environment variables
 ENV PYTHONPATH=/workspace/python:/workspace/vta/python:${PYTHONPATH}
@@ -18,6 +22,14 @@ ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/nvidia/lib64:${LD_LIBRARY_P
 # Install Jupyter Lab.
 RUN /install/install-jupyterlab.sh
 
+# Install SSHD
+RUN /install/install-sshd.sh
+
+# Create workspace directory
+RUN mkdir -p /workspace && chmod 777 /workspace
+WORKDIR /workspace
+
+EXPOSE 22
 EXPOSE 8888
 
-WORKDIR /workspace
+ENTRYPOINT [ "/scripts/entrypoint.sh" ]
