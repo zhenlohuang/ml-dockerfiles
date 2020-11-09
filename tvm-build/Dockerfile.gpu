@@ -1,4 +1,4 @@
-FROM tvmai/ci-gpu:v0.64
+FROM tlcpack/ci-gpu:v0.72
 
 COPY install /install
 COPY scripts /scripts
