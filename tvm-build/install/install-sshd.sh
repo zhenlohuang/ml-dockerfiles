@@ -7,4 +7,4 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 
 mkdir /run/sshd
 
-useradd -m zhenlohuang && yes 123456 | passwd yckj
+useradd -m zhenlohuang && yes 123456 | passwd zhenlohuang
